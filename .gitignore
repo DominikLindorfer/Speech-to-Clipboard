@@ -1,0 +1,5 @@
+dist/
+build/
+Pipfile.lock
+.venv/
+*.spec

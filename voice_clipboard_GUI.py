@@ -37,7 +37,17 @@ else:
 
 # explicitly load the model
 model_path = os.path.join(application_path, "small.pt")
-model = whisper.load_model(model_path)
+
+# Try loading local model first, fallback to download if not found
+try:
+    if os.path.exists(model_path):
+        print("✅ Loading Whisper model from local file...")
+        model = whisper.load_model(model_path)
+    else:
+        raise FileNotFoundError
+except (FileNotFoundError, RuntimeError):
+    print("⚠️ Local model not found, downloading from Whisper...")
+    model = whisper.load_model("small")  # Whisper downloads automatically
 
 stop_event = threading.Event()
 

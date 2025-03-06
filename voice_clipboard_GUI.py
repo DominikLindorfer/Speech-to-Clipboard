@@ -54,10 +54,14 @@ stop_event = threading.Event()
 
 # Create a nice tray icon
 def create_icon():
-    icon = Image.new("RGB", (64, 64), color="white")
-    d = ImageDraw.Draw(icon)
-    d.ellipse([8, 8, 56, 56], fill="#0080ff")
-    d.text((20, 22), "🎙️", fill="white")
+    icon = Image.new('RGB', (64, 64), color=(0, 0, 0))
+    draw = ImageDraw.Draw(icon)
+    draw.rectangle((28, 15, 36, 40), fill=(255, 255, 255))
+    draw.arc((22, 10, 42, 30), start=0, end=180, fill=(255, 255, 255))
+    draw.rectangle((30, 40, 34, 50), fill=(255, 255, 255))
+    draw.rectangle((20, 50, 44, 54), fill=(255, 255, 255))
+    draw.text((20, 22), "🎙️", fill="white")
+
     return icon
 
 
@@ -143,7 +147,8 @@ def transcribe_audio(icon=None):
 
     notification_text = text if len(text) <= 255 else text[:252] + "..."
     if icon:
-        icon.notify(notification_text, "Copied to Clipboard")
+        notification_title = "Copied to Clipboard"
+        icon.notify(notification_text, notification_title)
 
     status(f"✅ Transcribed ({selected_language}): {text}", tag="success")
 
@@ -221,7 +226,7 @@ def build_menu():
 def tray_icon():
     global tray_icon_ref
     icon = pystray.Icon(
-        "Whisper STT", create_icon(), "Whisper Speech-to-Clipboard", menu=build_menu()
+        "Speech-to-Clipboard", create_icon(), "Speech-to-Clipboard", menu=build_menu()
     )
     tray_icon_ref = icon
 

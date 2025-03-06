@@ -3,3 +3,6 @@ build/
 Pipfile.lock
 .venv/
 *.spec
+*.pyc
+*.pt
+.vscode/

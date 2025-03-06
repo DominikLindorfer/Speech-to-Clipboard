@@ -39,6 +39,8 @@ else:
 model_path = os.path.join(application_path, "small.pt")
 model = whisper.load_model(model_path)
 
+stop_event = threading.Event()
+
 
 # Create a nice tray icon
 def create_icon():
@@ -151,7 +153,7 @@ def stop_recording(event):
         recording = False
         audio_thread.join()
         status("⏹️ Recording stopped.", tag="stop")
-        time.sleep(1)
+        time.sleep(1.5)
         threading.Thread(target=transcribe_audio, args=(tray_icon_ref,)).start()
 
 
@@ -168,8 +170,13 @@ def copy_history_item(icon, full_text):
 
 
 def quit_app(icon, item):
-    icon.stop()
-    sys.exit()
+    stop_event.set()  # signal threads to stop
+    keyboard.unhook_all()  # remove keyboard listeners
+    icon.stop()  # stop the tray icon loop
+    status("❌ Quitting application...", tag="error")
+
+    # safely close the GUI in the main thread
+    status_window.root.after(100, status_window.root.destroy)
 
 
 def build_menu():
@@ -208,27 +215,39 @@ def tray_icon():
     )
     tray_icon_ref = icon
 
-    def refresh(icon):
-        while True:
+    def refresh(icon, stop_event):
+        while not stop_event.is_set():
             icon.menu = build_menu()
             time.sleep(2)
 
-    threading.Thread(target=refresh, args=(icon,), daemon=True).start()
+    threading.Thread(target=refresh, args=(icon, stop_event), daemon=True).start()
     icon.run()
 
 
 if __name__ == "__main__":
+    stop_event = threading.Event()
+
     status_window = StatusWindow()
     status_window.hide()
 
-    # Run tray icon in background thread
-    threading.Thread(target=tray_icon, daemon=True).start()
+    # Start tray icon thread
+    tray_thread = threading.Thread(target=tray_icon, daemon=True)
+    tray_thread.start()
 
-    # Setup hotkeys in background threads
+    # Set up keyboard listeners
     keyboard.on_press_key("f9", start_recording)
     keyboard.on_release_key("f9", stop_recording)
 
     status("👉 Hold F9 to record. Release to transcribe.")
 
-    # Run Tkinter GUI (main thread)
+    # Check periodically if we should exit
+    def periodic_check():
+        if stop_event.is_set():
+            status_window.root.destroy()
+        else:
+            status_window.root.after(100, periodic_check)  # check every 100 ms
+
+    status_window.root.after(100, periodic_check)
+
+    # Run GUI loop (main thread)
     status_window.run()

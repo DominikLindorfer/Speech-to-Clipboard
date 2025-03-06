@@ -26,9 +26,18 @@ recording = False
 audio_data = []
 audio_thread = None
 selected_language = "en"
-model = whisper.load_model("small")
 tray_icon_ref = None
 status_window = None
+
+if getattr(sys, "frozen", False):
+    # Running from PyInstaller exe
+    application_path = sys._MEIPASS
+else:
+    application_path = os.path.dirname(__file__)
+
+# explicitly load the model
+model_path = os.path.join(application_path, "small.pt")
+model = whisper.load_model(model_path)
 
 
 # Create a nice tray icon
@@ -49,7 +58,7 @@ class StatusWindow:
         self.root.protocol("WM_DELETE_WINDOW", self.hide)
 
         # Set custom icon (ensure mic.ico is in the same folder!)
-        icon_path = os.path.join(os.path.dirname(__file__), 'mic.ico')
+        icon_path = os.path.join(os.path.dirname(__file__), "mic.ico")
         if os.path.exists(icon_path):
             self.root.iconbitmap(icon_path)
 
@@ -113,7 +122,7 @@ def record_audio():
 
 def transcribe_audio(icon=None):
     global audio_data, selected_language
-    status("🔄 Transcribing audio...", tag='transcribe')
+    status("🔄 Transcribing audio...", tag="transcribe")
     audio_np = np.concatenate(audio_data, axis=0).flatten()
     result = model.transcribe(audio_np, language=selected_language)
     text = result["text"].strip()
@@ -124,14 +133,14 @@ def transcribe_audio(icon=None):
     if icon:
         icon.notify(notification_text, "Copied to Clipboard")
 
-    status(f"✅ Transcribed ({selected_language}): {text}", tag='success')
+    status(f"✅ Transcribed ({selected_language}): {text}", tag="success")
 
 
 def start_recording(event):
     global recording, audio_thread
     if not recording:
         recording = True
-        status("🎙️ Recording started...", tag='record')
+        status("🎙️ Recording started...", tag="record")
         audio_thread = threading.Thread(target=record_audio)
         audio_thread.start()
 
@@ -141,7 +150,7 @@ def stop_recording(event):
     if recording:
         recording = False
         audio_thread.join()
-        status("⏹️ Recording stopped.", tag='stop')
+        status("⏹️ Recording stopped.", tag="stop")
         time.sleep(1)
         threading.Thread(target=transcribe_audio, args=(tray_icon_ref,)).start()
 
@@ -149,13 +158,13 @@ def stop_recording(event):
 def set_language(icon, item):
     global selected_language
     selected_language = LANGUAGES[item.text]
-    status(f"🌐 Language set to: {item.text}", tag='language')
+    status(f"🌐 Language set to: {item.text}", tag="language")
 
 
 def copy_history_item(icon, full_text):
     pyperclip.copy(full_text)
     icon.notify(full_text[:255], "Recopied to Clipboard")
-    status(f"📋 Copied to clipboard: {full_text}", tag='clipboard')
+    status(f"📋 Copied to clipboard: {full_text}", tag="clipboard")
 
 
 def quit_app(icon, item):

@@ -8,26 +8,22 @@ import pystray
 from PIL import Image, ImageDraw
 import sys, os
 import time
-from collections import deque
 import tkinter as tk
 from tkinter.scrolledtext import ScrolledText
 
 # App configuration
-LANGUAGES = {
-    "English": "en",
-    "German": "de",
-    "Spanish": "es",
-    "French": "fr",
-    "Italian": "it",
-}
-clipboard_history = deque(maxlen=10)
-fs = 16000
-recording = False
-audio_data = []
-audio_thread = None
-selected_language = "en"
-tray_icon_ref = None
-status_window = None
+from config import (
+    LANGUAGES,
+    fs,
+    recording,
+    audio_data,
+    audio_thread,
+    selected_language,
+    tray_icon_ref,
+    status_window,
+    current_hotkey,
+    clipboard_history,
+)
 
 if getattr(sys, "frozen", False):
     # Running from PyInstaller exe
@@ -55,7 +51,7 @@ stop_event = threading.Event()
 
 # Create a nice tray icon
 def create_icon():
-    icon = Image.new('RGB', (64, 64), color=(0, 0, 0))
+    icon = Image.new("RGB", (64, 64), color=(0, 0, 0))
     draw = ImageDraw.Draw(icon)
     draw.rectangle((28, 15, 36, 40), fill=(255, 255, 255))
     draw.arc((22, 10, 42, 30), start=0, end=180, fill=(255, 255, 255))
@@ -251,10 +247,10 @@ if __name__ == "__main__":
     tray_thread.start()
 
     # Set up keyboard listeners
-    keyboard.on_press_key("f9", start_recording)
-    keyboard.on_release_key("f9", stop_recording)
+    keyboard.on_press_key(current_hotkey, start_recording)
+    keyboard.on_release_key(current_hotkey, stop_recording)
 
-    status("👉 Hold F9 to record. Release to transcribe.")
+    status(f"👉 Hold {current_hotkey} to record. Release to transcribe.")
 
     # Check periodically if we should exit
     def periodic_check():

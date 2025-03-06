@@ -43,6 +43,7 @@ try:
     if os.path.exists(model_path):
         print("✅ Loading Whisper model from local file...")
         model = whisper.load_model(model_path)
+        print("✅ Loading model complete!")
     else:
         raise FileNotFoundError
 except (FileNotFoundError, RuntimeError):

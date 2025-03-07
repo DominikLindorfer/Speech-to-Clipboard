@@ -7,3 +7,4 @@ Pipfile.lock
 *.pt
 .vscode/
 *.bat
+*.xcf

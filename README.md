@@ -1,6 +1,6 @@
 # Speech-to-Clipboard on Windows
 
-> This project is perfect for developers diving into (vibe coding)[https://en.wikipedia.org/wiki/Vibe_coding].
+> This project is perfect for developers diving into [vibe coding](https://en.wikipedia.org/wiki/Vibe_coding).
 
 A minimalistic and hackable Python application for Windows that transcribes speech into text and copies it to your clipboard using OpenAI's Whisper model. Hold down a hotkey to record audio, and upon release, the transcribed text is automatically copied to your clipboard. The application runs in the system tray, allowing you to select the language, view transcription history, and access other features. 
 

@@ -18,7 +18,7 @@ A minimalistic and hackable Python application for Windows that transcribes spee
 
 ## Installation
 
-Download the latest release from the [Releases](https://github.com/yourusername/Speech-to-Clipboard/releases) page. Extract the contents of the ZIP file to a directory of your choice. Run the `Speech-to-Clipboard.exe` executable to start the application.
+Download the latest release from the [Releases](https://github.com/DominikLindorfer/Speech-to-Clipboard/releases) page. Extract the contents of the ZIP file to a directory of your choice. Run the `Speech-to-Clipboard.exe` executable to start the application.
 
 ## Configuration
 

@@ -8,7 +8,7 @@ A minimalistic and hackable Python application for Windows that transcribes spee
 
 ## Features
 
-- **Real-time Speech Recognition:** Transcribe audio to text using Whisper.
+- **Real-time Speech Recognition:** Transcribe audio to text using Whisper 'small.pt'. Please change to your favorite model or finetune as you need!
 - **Clipboard Integration:** Automatically copies transcribed text to the clipboard.
 - **Hotkey Activation:** Start and stop recording with a customizable hotkey (default is `F9`).
 - **Multilingual Support:** Supports multiple languages selectable from the system tray.

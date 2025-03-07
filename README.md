@@ -6,6 +6,16 @@ A minimalistic and hackable Python application for Windows that transcribes spee
 <br /><br /><br />
 ![image](https://github.com/user-attachments/assets/cf51fd8b-ef8c-4620-9bd4-da06c4b56906)
 
+
+
+
+
+https://github.com/user-attachments/assets/940dd127-5772-4a3d-94e5-27b231f56b28
+
+
+
+
+
 ## Features
 
 - **Real-time Speech Recognition:** Transcribe audio to text using Whisper 'small.pt'. Please change to your favorite model or finetune as you need!

@@ -5,7 +5,8 @@
 A minimalistic and hackable Python application for Windows that transcribes speech into text using OpenAI's Whisper model and copies it to your clipboard. Hold down a hotkey to record audio, and upon release, the transcribed text is automatically copied to your clipboard. The application runs in the system tray, allowing you to select the language, view transcription history, and access other features. 
 
 ## Demo - Please unmute Video
-https://github.com/user-attachments/assets/940dd127-5772-4a3d-94e5-27b231f56b28
+
+https://github.com/user-attachments/assets/9c04415c-539e-417d-9bb2-37f56248b6e4
 
 ## Features
 

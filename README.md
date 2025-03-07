@@ -2,7 +2,9 @@
 
 > This project is perfect for developers diving into [vibe coding](https://en.wikipedia.org/wiki/Vibe_coding).
 
-A minimalistic and hackable Python application for Windows that transcribes speech into text and copies it to your clipboard using OpenAI's Whisper model. Hold down a hotkey to record audio, and upon release, the transcribed text is automatically copied to your clipboard. The application runs in the system tray, allowing you to select the language, view transcription history, and access other features. 
+A minimalistic and hackable Python application for Windows that transcribes speech into text using OpenAI's Whisper model and copies it to your clipboard. Hold down a hotkey to record audio, and upon release, the transcribed text is automatically copied to your clipboard. The application runs in the system tray, allowing you to select the language, view transcription history, and access other features. 
+
+![image](https://github.com/user-attachments/assets/cf51fd8b-ef8c-4620-9bd4-da06c4b56906)
 
 ## Features
 
@@ -76,12 +78,4 @@ build_clean.bat
 ```
 
 ## License
-
-[MIT License](LICENSE)
-
-## Acknowledgements
-
-- [OpenAI Whisper](https://github.com/openai/whisper)
-- [PyInstaller](https://www.pyinstaller.org/)
-- [PyStray](https://github.com/moses-palmer/pystray)
-- [Tkinter](https://docs.python.org/3/library/tkinter.html)
+MIT

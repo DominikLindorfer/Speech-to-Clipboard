@@ -1,0 +1,15 @@
+{
+    "AppConfig": {
+        "fs": 16000,
+        "recording": false,
+        "selected_language": "en",
+        "current_hotkey": "F9"
+    },
+    "Languages": {
+        "English": "en",
+        "German": "de",
+        "Spanish": "es",
+        "French": "fr",
+        "Italian": "it"
+    }
+}

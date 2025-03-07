@@ -10,26 +10,35 @@ import sys, os
 import time
 import tkinter as tk
 from tkinter.scrolledtext import ScrolledText
+import json
+from collections import deque
 
 # App configuration
-from config import (
-    LANGUAGES,
-    fs,
-    recording,
-    audio_data,
-    audio_thread,
-    selected_language,
-    tray_icon_ref,
-    status_window,
-    current_hotkey,
-    clipboard_history,
-)
 
 if getattr(sys, "frozen", False):
     # Running from PyInstaller exe
     application_path = sys._MEIPASS
 else:
     application_path = os.path.dirname(__file__)
+
+config_file_path = os.path.join(application_path, "config.json")
+
+with open(config_file_path, "r") as f:
+    config = json.load(f)
+
+# Access variables
+fs = config["AppConfig"]["fs"]
+recording = config["AppConfig"]["recording"]
+selected_language = config["AppConfig"]["selected_language"]
+current_hotkey = config["AppConfig"]["current_hotkey"]
+LANGUAGES = config["Languages"]
+
+recording = False
+audio_data = []
+audio_thread = None
+tray_icon_ref = None
+status_window = None
+clipboard_history = deque(maxlen=10)
 
 # explicitly load the model
 model_path = os.path.join(application_path, "small.pt")
